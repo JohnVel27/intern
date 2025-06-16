@@ -1,0 +1,232 @@
+/* General Body and Container Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: white; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to the top */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Card Styling */
+.card {
+    background-color: #ccecfa;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 30px 40px;
+    margin: 20px auto;
+}
+
+.card h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* added shadow */
+}
+
+
+/* Form Section Styling */
+.form-section {
+    margin-bottom: 30px;
+}
+
+.form-section h2 {
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    font-weight: bold; /* added */
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Form Grid Layout */
+.form-row {
+    display: grid;
+    gap: 20px;
+}
+
+.grid-2-col {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3-col {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Form Group and Input Styling */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    color: #333;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #4a86e8;
+    box-shadow: 0 0 0 2px rgba(74, 134, 232, 0.2);
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* File Upload Area */
+.file-upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #fafafa;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.file-upload-area:hover, .file-upload-area.active {
+    background-color: #f0f4f8;
+    border-color: #4a86e8;
+}
+.file-upload-area i {
+    font-size: 40px;
+    color: #4a86e8;
+    margin-bottom: 15px;
+}
+.file-upload-area p {
+    margin: 0;
+    color: #666;
+}
+
+/* Submit Button Styling */
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 25px;
+    background-color: #4a86e8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #3a75d1;
+}
+
+
+/* --- Modal Styling (No major changes needed) --- */
+.modal {
+    position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+    overflow: auto; background-color: rgba(0, 0, 0, 0.6); display: flex;
+    justify-content: center; align-items: center;
+}
+.modal-content {
+    background-color: #fefefe; margin: auto; padding: 40px; border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); width: 90%; max-width: 500px;
+    text-align: center; position: relative; animation: fadeInScale 0.3s ease-out;
+}
+.close-button {
+    color: #aaa; position: absolute; top: 15px; right: 25px; font-size: 32px;
+    font-weight: bold; cursor: pointer; transition: color 0.2s ease;
+}
+.close-button:hover, .close-button:focus { color: #555; }
+.success-icon { font-size: 60px; color: #28a745; margin-bottom: 20px; }
+.modal-content h2 { color: #333; font-size: 2em; margin-bottom: 15px; }
+.modal-content p { color: #666; font-size: 1.1em; line-height: 1.6; margin-bottom: 30px; }
+.ok-button {
+    background-color: #4a86e8; color: white; padding: 12px 30px; border: none;
+    border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.ok-button:hover { background-color: #3a75d1; }
+@keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .card {
+        padding: 20px;
+    }
+    .form-row {
+        grid-template-columns: 1fr; /* Stack columns */
+    }
+    .card h1 { font-size: 1.5em; }
+    .form-section h2 { font-size: 1.1em; }
+}
+
+@media (max-width: 480px) {
+     body {
+        padding: 10px;
+    }
+    .card {
+        padding: 15px;
+    }
+    .card h1 { font-size: 1.3em; }
+}
+
+.modalerror {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modalerror-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+
+
+
+
+
+
+
