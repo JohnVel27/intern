@@ -1,7 +1,6 @@
 from datetime import date
 from django.db import models
 
-# Create your models here.
 class InternshipApplication(models.Model):
     APPLICATION_TYPE_CHOICES = [
         ('Voluntary', 'Voluntary'),
@@ -27,13 +26,13 @@ class InternshipApplication(models.Model):
     gender_type = models.CharField(max_length=10, choices=GENDER_TYPE_CHOICES)
     required_hrs = models.PositiveIntegerField()
     resume_file_name = models.FileField(upload_to='resumes/')
+    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)  # ← New image field
     application_date = models.DateField(auto_now_add=True)
 
-    # This method calculates age on the fly
     def get_age(self):
         today = date.today()
         return (
-                today.year
-                - self.birthdate.year
-                - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
+            today.year
+            - self.birthdate.year
+            - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
         )

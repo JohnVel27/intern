@@ -22,6 +22,7 @@ def register(request):
         internship_position = request.POST.get('internship_position')
         internship_type = request.POST.get('internship_type')
         required_hrs = request.POST.get('required_hrs')
+        profile_image = request.FILES.get('profile_image')
         resume_file = request.FILES.get('resume_file_name')
 
 
@@ -61,6 +62,7 @@ def register(request):
             internship_position=internship_position,
             internship_type=internship_type,
             required_hrs=required_hrs,
+            profile_image=profile_image,
             resume_file_name=resume_file
         )
 
@@ -85,6 +87,8 @@ def register(request):
     # Handle GET request and show success modal if query param is set
     show_success_modal = request.GET.get('success') == '1'
     return render(request, 'index.html', {'show_success_modal': show_success_modal})
+
+
 
 
 

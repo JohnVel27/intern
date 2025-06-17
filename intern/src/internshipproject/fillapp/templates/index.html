@@ -113,15 +113,29 @@
                         </div>
                     </div>
                     <div class="form-group">
+                            <label>Upload Profile Image:<i>*</i></label>
+                            <div class="file-upload-area" id="image-drop-zone">
+                                <input
+                                    type="file"
+                                    id="profile_image"
+                                    name="profile_image"
+                                    accept=".jpeg,.jpg,.png"
+                                    hidden
+                                    />
+                                <i class="fas fa-image"></i>
+                                <p id="image-upload-text">Drag and drop image here or click to upload <br>(jpg,jpeg,png file only)</p>
+                            
+                            </div>
+                        </div>
+                    <div class="form-group">
                         <label>Upload Resume:<i>*</i></label>
                         <div class="file-upload-area" id="file-drop-zone">
                             <input
-                              type="file"
-                              id="resume_file_name"
-                              name="resume_file_name"
-                              accept=".pdf,.doc,.docx"
-                              required
-                              hidden
+                                type="file"
+                                id="resume_file_name"
+                                name="resume_file_name"
+                                accept=".pdf"
+                                hidden
                             />
                             <i class="fas fa-cloud-upload-alt"></i>
                             <p id="file-upload-text">Drag and drop file here or click to upload</p>
@@ -168,7 +182,6 @@
     </div>
     {% endif %}
 
-    <!-- JavaScript -->
     <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Success Modal
@@ -228,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // File Upload UI with Validation
+    // Resume File Upload
     const dropZone = document.getElementById('file-drop-zone');
     const fileInput = document.getElementById('resume_file_name');
     const uploadText = document.getElementById('file-upload-text');
@@ -283,8 +296,73 @@ document.addEventListener('DOMContentLoaded', function () {
             fileInput.files = e.dataTransfer.files;
         }
     });
+
+    // Profile Image Upload (JPEG/PNG only)
+    const imageDropZone = document.getElementById('image-drop-zone');
+    const imageInput = document.getElementById('profile_image');
+    const imageUploadText = document.getElementById('image-upload-text');
+    const imagePreview = document.getElementById('image-preview');
+    const MAX_IMAGE_SIZE = 3 * 1024 * 1024; // 3MB
+
+    function validateImage(file) {
+        const validTypes = ['image/jpeg', 'image/png'];
+        if (!validTypes.includes(file.type)) {
+            alert('Only JPEG,JPG and PNG image files are allowed.');
+            imageInput.value = '';
+            imageUploadText.textContent = 'Drag and drop image here or click to upload';
+            imagePreview.style.display = 'none';
+            return false;
+        }
+
+        if (file.size > MAX_IMAGE_SIZE) {
+            alert('Image must be 3MB or less.');
+            imageInput.value = '';
+            imageUploadText.textContent = 'Drag and drop image here or click to upload';
+            imagePreview.style.display = 'none';
+            return false;
+        }
+
+        imageUploadText.textContent = file.name;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+
+        return true;
+    }
+
+    imageDropZone?.addEventListener('click', () => imageInput.click());
+
+    imageInput?.addEventListener('change', () => {
+        if (imageInput.files.length > 0) {
+            validateImage(imageInput.files[0]);
+        }
+    });
+
+    imageDropZone?.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        imageDropZone.classList.add('active');
+    });
+
+    imageDropZone?.addEventListener('dragleave', () => {
+        imageDropZone.classList.remove('active');
+    });
+
+    imageDropZone?.addEventListener('drop', (e) => {
+        e.preventDefault();
+        imageDropZone.classList.remove('active');
+
+        const file = e.dataTransfer.files[0];
+        if (validateImage(file)) {
+            imageInput.files = e.dataTransfer.files;
+        }
+    });
 });
 </script>
+
 
 </body>
 </html>

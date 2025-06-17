@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen py-10 px-4">
+
+  <!-- Dashboard Cards -->
+  <div class="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 mb-8">
+    <!-- Gender Chart Card -->
+    <div class="flex-1 bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+      <h1 class="text-lg font-semibold text-gray-700 mb-2">Gender Distribution</h1>
+      <div class="text-sm font-medium text-gray-600 mb-4">
+        Total Applicants: {{ total_applicants }}
+      </div>
+      <canvas id="genderPieChart" class="w-full max-h-96"></canvas>
+    </div>
+
+    <!-- Role Chart Card -->
+    <div class="flex-1 bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+      <h1 class="text-lg font-semibold text-gray-700 mb-2">Applicants by Role</h1>
+      <div class="text-sm font-medium text-gray-600 mb-4">
+        Total Applicants: {{ total_applicants }}
+      </div>
+      <canvas id="roleBarChart" class="w-full" style="height: 350px;"></canvas>
+    </div>
+  </div>
+
+  <!-- Applicants Table -->
+  <div class="w-full max-w-6xl mx-auto overflow-x-auto bg-white rounded-lg shadow-md">
+    <table class="min-w-full text-left border border-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2">Name</th>
+          <th class="px-4 py-2">School</th>
+          <th class="px-4 py-2">Course</th>
+          <th class="px-4 py-2">Department</th>
+          <th class="px-4 py-2">Required Hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for applicant in applicants %}
+          <tr class="hover:bg-gray-50 border-t">
+            <td class="px-4 py-2">
+              <a href="{% url 'applicant_detail' applicant.id %}" class="text-blue-600 hover:underline">
+                {{ applicant.firstname }} {{ applicant.lastname }}
+              </a>
+            </td>
+            <td class="px-4 py-2">{{ applicant.school }}</td>
+            <td class="px-4 py-2">{{ applicant.course }}</td>
+            <td class="px-4 py-2">{{ applicant.internship_position }}</td>
+            <td class="px-4 py-2">{{ applicant.required_hrs }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5" class="px-4 py-4 text-center text-gray-500">No applicants found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const genderCtx = document.getElementById('genderPieChart').getContext('2d');
+    const genderData = {{ total_gender|safe }};
+    new Chart(genderCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Male', 'Female'],
+        datasets: [{
+          data: genderData,
+          backgroundColor: ['rgba(54, 162, 235, 0.8)', 'rgba(255, 99, 132, 0.8)'],
+          borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+          borderWidth: 1,
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: false }
+        }
+      }
+    });
+
+    const roleCtx = document.getElementById('roleBarChart').getContext('2d');
+    const roleLabels = {{ role_labels|safe }};
+    const roleData = {{ total_positions|safe }};
+    new Chart(roleCtx, {
+      type: 'bar',
+      data: {
+        labels: roleLabels,
+        datasets: [{
+          label: 'Applicants per Role',
+          data: roleData,
+          backgroundColor: 'rgba(75, 192, 192, 0.7)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 },
+            title: {
+              display: true,
+              text: 'Number of Applicants'
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          title: { display: false }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
