@@ -10,6 +10,12 @@ class InternshipApplication(models.Model):
         ('Male', 'Male'),
         ('Female', 'Female'),
     ]
+    STATUS_TYPE_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Active', 'Active'),
+        ('Not Proceed', 'Not Proceed'),
+        ('Finished','Finished'),
+    ]
 
     firstname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
@@ -24,6 +30,7 @@ class InternshipApplication(models.Model):
     internship_position = models.CharField(max_length=100)
     internship_type = models.CharField(max_length=10, choices=APPLICATION_TYPE_CHOICES)
     gender_type = models.CharField(max_length=10, choices=GENDER_TYPE_CHOICES)
+    status = models.CharField(max_length=50, choices=STATUS_TYPE_CHOICES, default='Pending')
     required_hrs = models.PositiveIntegerField()
     resume_file_name = models.FileField(upload_to='resumes/')
     profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)  # ← New image field
